@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tibero SQL Viewer</title>
+  <link rel="stylesheet" href="/static/vendor/codemirror.min.css">
+  <link rel="stylesheet" href="/static/vendor/addon/show-hint.min.css">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      <span>Tibero SQL Viewer</span>
+      <span class="badge">read-only</span>
+    </div>
+    <div class="spacer"></div>
+    <div id="conn" class="conn" title="Connection to ThingWorx"><span class="dot"></span><span id="connText">checking…</span></div>
+  </header>
+
+  <div id="main">
+    <aside id="sidebar">
+      <div class="side-head">
+        <span>Database Objects</span>
+        <button id="btnRefresh" class="icon-btn" title="Reload tables from database">&#8635;</button>
+      </div>
+      <input id="filter" type="search" placeholder="Filter tables…" autocomplete="off" spellcheck="false">
+      <div id="tree" class="tree"></div>
+    </aside>
+
+    <div id="vsplit" class="splitter splitter-v" title="Drag to resize"></div>
+
+    <section id="workspace">
+      <div id="editorPane">
+        <div class="toolbar">
+          <button id="btnRun" class="primary" title="Run statement at cursor (Ctrl+Enter)">&#9654; Run <kbd>Ctrl</kbd>+<kbd>Enter</kbd></button>
+          <span class="hint-text">Runs the selection, or the statement under the cursor (separated by <code>;</code> or a blank line). Ctrl+Space = suggestions.</span>
+        </div>
+        <div id="editor"></div>
+      </div>
+
+      <div id="hsplit" class="splitter splitter-h" title="Drag to resize"></div>
+
+      <div id="resultPane">
+        <div id="grid" class="grid-wrap"><div class="placeholder">Results will appear here.</div></div>
+        <div id="statusbar">
+          <span id="statusText">Ready</span>
+          <span class="spacer"></span>
+          <button id="btnReveal" class="small" hidden title="Show the exported file in Windows Explorer">Show in folder</button>
+          <button id="btnCsv" class="small" disabled title="Exports ALL rows of the query (not just the loaded ones) to a CSV file. Right-click the grid for more options.">Export CSV</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div id="ctxMenu" class="ctx" hidden role="menu">
+  <button data-act="end" role="menuitem"><span class="t">Go to end (load all rows)</span></button>
+  <div class="sep"></div>
+  <button data-act="csv" role="menuitem"><span class="t">Export all rows to CSV</span></button>
+  <button data-act="sql" role="menuitem"><span class="t">Export all rows as SQL INSERT…</span></button>
+  <div class="note">Exports fetch ALL rows and save to <span id="ctxDir">C:\temp</span></div>
+</div>
+
+<script src="/static/vendor/codemirror.min.js"></script>
+<script src="/static/vendor/mode/sql.min.js"></script>
+<script src="/static/vendor/addon/show-hint.min.js"></script>
+<script src="/static/vendor/addon/matchbrackets.min.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>
